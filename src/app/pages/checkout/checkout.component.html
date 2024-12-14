@@ -1,0 +1,27 @@
+<div class="checkout-container">
+  <h2>Confirmar Compra</h2>
+
+  <div class="cart-summary">
+    <h3>Resumen del carrito</h3>
+    <div *ngFor="let item of cartItems" class="cart-item">
+      <p>{{ item.eventTitle }}</p>
+      <p>{{ item.quantity }} x {{ item.pricePerTicket }} Bs</p>
+    </div>
+    <div class="total">
+      <strong>Total:</strong> {{ totalPrice | currency:'Bs ' }}
+    </div>
+  </div>
+
+  <div class="payment-form">
+    <h3>Detalles de Pago</h3>
+    <form>
+      <input type="text" [(ngModel)]="paymentDetails.cardName" placeholder="Nombre en la tarjeta" required />
+      <input type="text" [(ngModel)]="paymentDetails.cardNumber" placeholder="Número de tarjeta" required />
+      <div class="card-details">
+        <input type="text" [(ngModel)]="paymentDetails.expiration" placeholder="MM/AA" required />
+        <input type="text" [(ngModel)]="paymentDetails.cvv" placeholder="CVV" required />
+      </div>
+      <button (click)="completePurchase()" class="btn-complete">Completar Compra</button>
+    </form>
+  </div>
+</div>

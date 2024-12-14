@@ -1,0 +1,19 @@
+<div class="event-details">
+    <h1>{{ event.title }}</h1>
+    <img [src]="event.image" alt="Imagen del evento" />
+    <img [src]="event?.imageUrl" alt="{{ event?.name }}" />
+    <p>{{ event?.description }}</p>
+    <h3>Precio por ticket: {{ event?.price | currency }}</h3>
+  
+    <div class="quantity-selector">
+      <button (click)="quantity = Math.max(1, quantity - 1)">-</button>
+      <input type="number" [(ngModel)]="quantity" min="1" />
+      <button (click)="quantity = quantity + 1">+</button>
+    </div>
+  
+    <div class="actions">
+      <button (click)="addToCart()">Añadir al carrito</button>
+      <button (click)="buyNow()">Comprar ahora</button>
+    </div>
+  </div>
+  

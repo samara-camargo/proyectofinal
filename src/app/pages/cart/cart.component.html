@@ -1,0 +1,23 @@
+<div class="cart">
+  <h1>Carrito de Compras</h1>
+  <div *ngIf="cartItems.length > 0; else emptyCart">
+    <div *ngFor="let item of cartItems" class="cart-item">
+      <h3>{{ item.eventTitle }}</h3>
+      <p>Cantidad: {{ item.quantity }}</p>
+      <p>Precio por ticket: {{ item.pricePerTicket | currency }}</p>
+      <button (click)="removeItem(item)">Eliminar</button>
+    </div>
+    
+
+    <h2>Total: Bs. {{ totalPrice.toFixed(2) }}</h2>
+    <div class="action-buttons">
+      <button (click)="goToEvents()">Volver</button>
+      <button [disabled]="cartItems.length === 0" (click)="checkout()">Proceder al pago</button>
+    </div>
+  </div>
+
+  <ng-template #emptyCart>
+    <p class="empty-message">Tu carrito está vacío.</p>
+    <button (click)="goToEvents()">Volver</button>
+  </ng-template>
+</div>

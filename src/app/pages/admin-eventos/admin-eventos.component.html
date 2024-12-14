@@ -1,0 +1,56 @@
+<div class="admin-container">
+  <button (click)="openDialog()" class="add-button">Agregar Evento</button>
+
+  <table class="event-table">
+    <thead>
+      <tr>
+        <th>Título</th>
+        <th>Descripción</th>
+        <th>Precio</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let event of events">
+        <td>{{ event.title }}</td>
+        <td>{{ event.description }}</td>
+        <td>{{ event.price | currency }}</td>
+        <td>
+          <button (click)="openDialog(event)">Editar</button>
+          <button (click)="deleteEvent(event.id)">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="successMessage" class="success-message">
+    {{ successMessage }}
+  </div>
+
+  <div class="modal" [class.show]="isDialogOpen">
+    <div class="modal-content">
+      <h2>{{ currentEvent ? 'Editar Evento' : 'Crear Nuevo Evento' }}</h2>
+      <form [formGroup]="eventForm" (ngSubmit)="saveEvent()">
+        <input formControlName="title" placeholder="Título" />
+        <textarea formControlName="description" placeholder="Descripción"></textarea>
+        <input type="number" formControlName="price" placeholder="Precio" />
+        <input type="number" formControlName="discount" placeholder="Descuento (%)" />
+        <input formControlName="image" placeholder="URL de Imagen" />
+        <input formControlName="category" placeholder="Categoría" />
+        <input formControlName="address" placeholder="Dirección" />
+        <input formControlName="city" placeholder="Ciudad" />
+        <input formControlName="country" placeholder="País" />
+        <input formControlName="date" type="date" placeholder="Fecha" />
+        <input formControlName="hour" type="time" placeholder="Hora" />
+        <input type="number" formControlName="stockTickets" placeholder="Stock" />
+        <label>
+          <input type="checkbox" formControlName="featured" /> Destacado
+        </label>
+        <div class="button-group">
+          <button type="button" (click)="closeDialog()">Cancelar</button>
+          <button type="submit">{{ currentEvent ? 'Actualizar' : 'Guardar' }}</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,17 @@
+<div class="history-container">
+    <h1 class="title">Historial de Compras</h1>
+    <div *ngIf="purchases.length > 0; else noPurchases">
+      <div class="purchase-card" *ngFor="let purchase of purchases">
+        <div class="purchase-details">
+          <h3>{{ purchase.eventTitle }}</h3>
+          <p><strong>Fecha de Compra:</strong> {{ purchase.date }}</p>
+          <p><strong>Cantidad:</strong> {{ purchase.quantity }} entradas</p>
+          <p><strong>Total Pagado:</strong> {{ purchase.totalPrice | currency:'USD' }}</p>
+        </div>
+      </div>
+    </div>
+    <ng-template #noPurchases>
+      <p class="no-purchases">No tienes compras registradas.</p>
+    </ng-template>
+  </div>
+  

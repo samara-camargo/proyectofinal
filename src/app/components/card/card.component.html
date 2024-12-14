@@ -1,0 +1,14 @@
+<div class="card">
+    <div class="card-header">
+      <h4>{{ data.title }}</h4>
+    </div>
+    <div class="card-body">
+      <p>{{ data.description }}</p>
+      <p><strong>Fecha:</strong> {{ data.date }}</p>
+      <p><strong>Categorías:</strong> {{ data.tags.join(', ') }}</p>
+    </div>
+    <div class="card-footer">
+      <button (click)="buyTicket()">Comprar Ticket</button>
+    </div>
+  </div>
+  

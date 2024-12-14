@@ -1,0 +1,20 @@
+<div class="container-fluid app-wrapper">
+  <div class="app-navbar">
+    <div class="app-header">
+      <h1>Live On!</h1>
+      <hr>
+    </div>
+
+    <div class="row">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
+
+<div>
+
+  
+  <a *ngIf="!auth.isLogued" routerLink="/auth" routerLinkActive="active" class="navbar-btn">
+    <i class="fa-solid fa-right-to-bracket"></i>
+  </a>
+</div>

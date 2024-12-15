@@ -33,27 +33,30 @@ export class EventDetailsComponent {
   addToCart() {
     const user = localStorage.getItem('user');
     const userId = user ? JSON.parse(user).uid : null;
-
-    
+  
     if (!userId) {
       alert('Por favor, inicia sesión para añadir al carrito.');
-      this.router.navigate(['/auth']); 
+      this.router.navigate(['/auth']);
       return;
     }
-
+  
+    const discountedPrice = this.event.discount
+      ? this.event.price * (1 - this.event.discount / 100)
+      : this.event.price;
+  
     const cartData = {
       eventId: this.event.id,
       eventTitle: this.event.title,
+      eventImage: this.event.image,
       quantity: this.quantity,
-      pricePerTicket: this.event.price,
-      userId:userId,
+      pricePerTicket: discountedPrice,
+      userId: userId,
     };
-
-    
-    this.dbService.updateCart(userId, cartData).subscribe({
+  
+    this.dbService.addDocument2('cart', cartData).subscribe({
       next: () => {
         alert('Tickets añadidos al carrito');
-        this.router.navigate(['/cart']); 
+        this.router.navigate(['/cart']);
       },
       error: (err) => {
         console.error('Error al añadir al carrito:', err);
@@ -61,6 +64,8 @@ export class EventDetailsComponent {
       },
     });
   }
+  
+
 
 
   buyNow() {

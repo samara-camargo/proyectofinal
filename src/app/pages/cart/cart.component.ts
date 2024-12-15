@@ -40,20 +40,24 @@ export class CartComponent {
   removeItem(item: any): void {
     const user = localStorage.getItem('user');
     const userId = user ? JSON.parse(user).uid : null;
+  
     if (userId) {
+      // Filtra visualmente los items en la interfaz
       this.cartItems = this.cartItems.filter(cartItem => cartItem !== item);
       this.calculateTotalPrice();
   
-      this.dbService.removeItemFromCart(userId, item.eventId).subscribe({
-        next: () => console.log('Elemento eliminado del carrito en Firebase'),
-        error: (err) => console.error('Error al eliminar elemento del carrito en Firebase:', err),
-      });
+      this.dbService.deleteFirestoreDocument('cart', item.id)
+        .then(() => {
+          console.log(`Evento ${item.eventTitle} eliminado del carrito.`);
+        })
+        .catch((err) => {
+          console.error('Error al eliminar elemento del carrito en Firebase:', err);
+          alert('No se pudo eliminar el elemento. Intente nuevamente.');
+        });
     } else {
       console.error('No se encontró un usuario autenticado.');
     }
   }
-  
-  
 
   checkout() {
     this.router.navigate(['/checkout'], {

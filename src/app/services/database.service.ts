@@ -98,20 +98,37 @@ export class DatabaseService {
     const collectionRef = collection(this.firestore, collectionName);
     return from(addDoc(collectionRef, data));
   }
-  removeItemFromCart(userId: string, itemId: string): Observable<void> {
-    const cartRef = doc(this.firestore, `cart/${userId}`);
-    
-    return from(updateDoc(cartRef, {
-      items: arrayRemove({ eventId: itemId }) // Esto elimina el item que contiene el eventId específico
-    })).pipe(
-      catchError((error) => {
-        console.error('Error al eliminar item del carrito:', error);
-        return throwError(() => new Error('Error al eliminar item del carrito.'));
-      })
-    );
+  addDocument2(collectionName: string, data: any): Observable<any> {
+    const collectionRef = collection(this.firestore, collectionName);
+    return from(addDoc(collectionRef, data));
   }
   
+  removeItemFromCart(userId: string, eventId: string): Observable<void> {
+    const cartRef = doc(this.firestore, `cart/${userId}`);
+    return new Observable<void>((observer) => {
+      this.getDocumentById('cart', userId).subscribe({
+        next: (cart: any) => {
+          if (cart && cart.items) {
+            const updatedItems = cart.items.filter((item: any) => item.eventId !== eventId);
   
+            // Actualiza los datos en Firestore
+            setDoc(cartRef, { items: updatedItems }, { merge: true })
+              .then(() => {
+                observer.next();
+                observer.complete();
+              })
+              .catch((error) => {
+                observer.error(error);
+              });
+          } else {
+            observer.error(new Error('No se encontraron items en el carrito.'));
+          }
+        },
+        error: (err) => observer.error(err),
+      });
+    });
+  }
+ 
   
   /**
    * 

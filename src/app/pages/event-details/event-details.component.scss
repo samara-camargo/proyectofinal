@@ -17,6 +17,27 @@
       border-radius: 20px;
       
     }
+    .price {
+      display: flex;
+      flex-direction: column; /* Cambia la dirección para centrar los elementos verticalmente */
+      align-items: center; /* Centra los elementos horizontalmente */
+      gap: 8px;
+      margin-top: 15px; /* Añade un margen para separar el precio del resto del contenido */
+    
+      .discounted-price {
+        color: #f83758;
+        font-weight: bold;
+        font-size: 1.5em; /* Aumenta el tamaño para que destaque */
+      }
+    
+      .original-price {
+        color: #888;
+        text-decoration: line-through;
+        font-size: 1em; /* Ajusta el tamaño para que sea menor que el precio con descuento */
+      }
+    }
+    
+    
  
 
     .quantity-selector {

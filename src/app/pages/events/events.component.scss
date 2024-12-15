@@ -175,6 +175,11 @@
           color: #888; // Color gris para el precio tachado
           text-decoration: line-through;
         }
+        .missing-price {
+          color: #888; // Gris tenue
+          font-style: italic;
+        }
+        
       }
       
       

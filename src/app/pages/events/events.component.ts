@@ -39,8 +39,16 @@ export class EventsComponent implements OnInit {
   }
 
   loadEvents(): void {
-    this.events$ = this.db.fetchFirestoreCollection('events');
+    this.db.fetchFirestoreCollection('events').subscribe((events) => {
+      this.events$ = of(
+        events.map((event) => ({
+          ...event,
+          price: typeof event.price === 'number' ? event.price : null, // Asegurar que price sea numérico
+        }))
+      );
+    });
   }
+  
 
   applyFilters(): void {
     const { category, city, date, featuredOnly } = this.filterForm.value;

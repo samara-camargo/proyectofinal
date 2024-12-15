@@ -3,8 +3,19 @@
     <img [src]="event.image" alt="Imagen del evento" />
     <img [src]="event?.imageUrl" alt="{{ event?.name }}" />
     <p>{{ event?.description }}</p>
-    <h3>Precio por ticket: {{ event?.price | currency }}</h3>
-  
+    <h3>Precio por ticket:</h3>
+<div class="price">
+  <span *ngIf="event?.discount > 0" class="discounted-price">
+    Bs. {{ (event?.price * (1 - event?.discount / 100)).toFixed(2) }}
+  </span>
+  <span *ngIf="event?.discount > 0" class="original-price">
+    <s>Bs. {{ event?.price.toFixed(2) }}</s>
+  </span>
+  <span *ngIf="event?.discount === 0">
+    Bs. {{ event?.price.toFixed(2) }}
+  </span>
+</div>
+
     <div class="quantity-selector">
       <button (click)="quantity = Math.max(1, quantity - 1)">-</button>
       <input type="number" [(ngModel)]="quantity" min="1" />
@@ -13,7 +24,6 @@
   
     <div class="actions">
       <button (click)="addToCart()">Añadir al carrito</button>
-      <button (click)="buyNow()">Comprar ahora</button>
     </div>
   </div>
   

@@ -50,16 +50,20 @@
           <p><strong>Ubicación:</strong> {{ event.address }}, {{ event.city }}, {{ event.country }}</p>
           <p><strong>Entradas disponibles:</strong> {{ event.stockTickets }}</p>
           <div class="price">
-            <span *ngIf="event.discount > 0" class="discounted-price">
+            <span *ngIf="event.price && event.discount > 0" class="discounted-price">
               Bs. {{ (event.price * (1 - event.discount / 100)).toFixed(2) }}
             </span>
-            <span *ngIf="event.discount > 0" class="original-price">
+            <span *ngIf="event.price && event.discount > 0" class="original-price">
               <s>Bs. {{ event.price.toFixed(2) }}</s>
             </span>
-            <span *ngIf="event.discount === 0">
+            <span *ngIf="event.price && event.discount === 0">
               Bs. {{ event.price.toFixed(2) }}
             </span>
+            <span *ngIf="!event.price" class="missing-price">
+              Precio no disponible
+            </span>
           </div>
+          
           
           
         </div>

@@ -1,17 +1,19 @@
-import { CommonModule } from '@angular/common'; 
+import { CommonModule, DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { DatabaseService } from '../../services/database.service';
+
 @Component({
   selector: 'app-history',
   standalone: true,
-  imports: [CommonModule], 
+  imports: [CommonModule],
   templateUrl: './history.component.html',
-  styleUrls: ['./history.component.scss']
+  styleUrls: ['./history.component.scss'],
+  providers: [DatePipe] // Proveedor necesario para usar DatePipe
 })
 export class HistoryComponent implements OnInit {
   purchases: any[] = [];
 
-  constructor(private dbService: DatabaseService) {}
+  constructor(private dbService: DatabaseService, private datePipe: DatePipe) {}
 
   ngOnInit(): void {
     const user = localStorage.getItem('user');
@@ -20,11 +22,17 @@ export class HistoryComponent implements OnInit {
     if (userId) {
       this.dbService.getDocumentsByField('purchases', 'userId', userId).subscribe({
         next: (data) => {
-          this.purchases = data;
+          this.purchases = data.map(purchase => ({
+            ...purchase,
+            formattedDate: this.datePipe.transform(purchase.date, 'd \'de\' MMMM \'de\' y, HH:mm'), // Formato legible
+          }));
         },
         error: (err) => console.error(err),
       });
     }
   }
+  goToEvents(): void {
+    window.location.href = '/events'; // Redirige al componente Events
+  }
+  
 }
-

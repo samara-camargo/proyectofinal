@@ -111,4 +111,8 @@ export class AdminEventosComponent implements OnInit {
       this.fetchEvents();
     });
   }
+  goToEvents(): void {
+    window.location.href = '/events'; // Redirige al componente Events
+  }
+  
 }

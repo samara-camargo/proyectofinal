@@ -1,7 +1,13 @@
 <div class="checkout-container">
   <h2>Confirmar Compra</h2>
 
-  <div class="cart-summary">
+  <!-- Mostrar loader mientras se cargan los datos -->
+  <div *ngIf="isLoading">
+    <p class="loading-message">Cargando carrito...</p>
+  </div>
+
+  <!-- Resumen del carrito -->
+  <div *ngIf="!isLoading && cartItems.length > 0" class="cart-summary">
     <h3>Resumen del carrito</h3>
     <div *ngFor="let item of cartItems" class="cart-item">
       <p>{{ item.eventTitle }}</p>
@@ -12,7 +18,13 @@
     </div>
   </div>
 
-  <div class="payment-form">
+  <!-- Mensaje si el carrito está vacío -->
+  <div *ngIf="!isLoading && cartItems.length === 0" class="empty-cart">
+    <p>No hay artículos en el carrito.</p>
+  </div>
+
+  <!-- Formulario de pago -->
+  <div class="payment-form" *ngIf="!isLoading && cartItems.length > 0">
     <h3>Detalles de Pago</h3>
     <form>
       <input type="text" [(ngModel)]="paymentDetails.cardName" placeholder="Nombre en la tarjeta" required />
